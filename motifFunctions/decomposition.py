@@ -2,10 +2,6 @@ import os
 import pandas as pd
 import numpy as np
 
-import os
-import pandas as pd
-import numpy as np
-
 def getMotifCount(peakFile, genome, motifFile, outputDirectory=""):
     
     if not os.path.exists(peakFile):
@@ -130,3 +126,41 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
     finalMotifCoords.to_csv(output,header=True, index=True, sep='\t')
     
     print("Motif Coordinates of the peak file have been placed in " + output)
+
+def getMotifCoordinateDifference(motifCoordinatesFile,outputDirectory=""):
+    
+    if not os.path.exists(motifCoordinatesFile):
+        print('Path to motifCoordinatesFile is incorrect or does not exist\n')
+        return 1
+    
+    allCoords = pd.read_table(motifCoordinatesFile, sep='\t', header=0, index_col=0)
+    allCoords = allCoords.sort_index(axis = 1)
+    
+    numOfMotifs = allCoords.shape[0]
+    numOfpeaks = allCoords.shape[1]
+    
+    # all combinations of n motifs is n*(n-1)/2
+    allCombinations = int(numOfMotifs*(numOfMotifs-1)/2) 
+    
+    numpyMatrix = np.zeros(shape=(numOfpeaks,allCombinations))
+    
+    for i in range(numOfpeaks):
+        distanceMatrix = np.zeros(shape=(numOfMotifs,numOfMotifs))
+        motifCoords = COORDS.iloc[:,i]
+        for j in range(numOfMotifs):
+             for k in range(numOfMotifs):
+                if motifCoords[j] == 0 or motifCoords[k] == 0:
+                    distanceMatrix[j][k] = 10000
+                else:
+                    distanceMatrix[j][k] = motifCoords[j]-motifCoords[k]
+        # get Upper Triangular Half of the Matrix as to not repeat distances
+        # this also flattens it into a n*(n-1)/2 vector
+        numpyMatrix[i] = distanceMatrix[np.triu_indices(numOfMotifs,k=1)] 
+    
+    pdMatrix = pd.DataFrame(numpyMatrix.transpose())
+    pdMatrix.columns = allCoords.columns
+    
+    output = outputDirectory + 'coordinateDifference.csv'
+    pdMatrix.to_csv(output,header=True, index=True, sep='\t')
+    
+    print("Coordinates Differences have been placed in " + output)
