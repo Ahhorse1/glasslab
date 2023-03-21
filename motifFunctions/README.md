@@ -1,7 +1,7 @@
-# Methods
-[getMotifCount](#-getMotifCount)
-[getMotifLocation](#-getMotifLocation)
-[getMotifCoordDiff](#-getMotifCoordDiff)
+# Motif Methods
+- [getMotifCount](#-getMotifCount)
+- [getMotifLocation](#-getMotifLocation)
+- [getMotifCoordDiff](#-getMotifCoordDiff)
 
 # getMotifCount
 
@@ -10,8 +10,11 @@ This function provides the count of each motif in each peak.
 
 ## Paramters:
 **peakFile** - File path to peak file 
+
 **genome** - Genome that peak file is from 
+
 **motifFile** - .motif file containing all the motifs
+
 **outputDirectory** - The output directory you would like the function to output to, this is an optional parameter, if not specified it will output in the directory where this code is run.
 Include the /, in your input, for example if the directory is glasslab/data, input it as glasslab/data/
 
@@ -35,10 +38,14 @@ getMotifLocation( peakFile, genome, motifFile, outputDirectory (Optional), motif
 This function provides the starting location of motifs in each peak, if there is more than one motif in a peak, it will provide the starting location of the first motif.
 ## Paramters:
 **peakFile** - File path to peak file 
+
 **genome** - Genome that peak file is from 
+
 **motifFile** - .motif file containing all the motifs
+
 **outputDirectory** - The output directory you would like the function to output to, this is an optional parameter, if not specified it will output in the directory where this code is run.
 Include the /, in your input, for example if the directory is glasslab/data, input it as glasslab/data/
+
 **motifCounts** - csv file containing the counts of motif, only the format outputted by getMotifCounts will work. This is an optional parameter
 
 ## Output:
@@ -59,6 +66,7 @@ getMotifCoordDiff( motifCoordinatesFile, outputDirectory (optional) )
 The function provides a N by M matrix containing the differences between the location of motifs on each peak given a motif coordinates file provided by the getMotifLocation function. N is the number of peaks and M is the number of motifs of interest.
 ## Parameters:
 **motifCoordinatesFile** - Filepath to the csv file containing the motif coordinates. This is provided by getMotifLocation function
+
 **outputDirectory** - The output directory you would like the function to output to, this is an optional parameter, if not specified it will output in the directory where this code is run. Include the /, in your input, for example if the directory is glasslab/data, input it as glasslab/data/
 
 ## Output
