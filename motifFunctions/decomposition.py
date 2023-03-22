@@ -13,8 +13,8 @@ def getMotifCount(peakFile, genome, motifFile, outputDirectory=""):
         return 1
     
     ## Read in motifFile containing path to .motif files
-    motifs = pd.read_table(motifFile, sep="\n", header=None)
-    motifs = motifs.to_numpy()
+#    motifs = pd.read_table(motifFile, sep="\n", header=None)
+#    motifs = motifs.to_numpy()
     
     ## Create a string combinining all the .motif paths
 #     motifString = ""
@@ -26,7 +26,7 @@ def getMotifCount(peakFile, genome, motifFile, outputDirectory=""):
     motifCount = outputDirectory + "motifCount.txt"
     
     ## Call HOMER annotatePeaks to get motif counts
-    print('annotatePeaks.pl ' + peakFile + " " + genome + ' -m ' + motifFile + '-nmotifs > '+ motifCount)
+    print('annotatePeaks.pl ' + peakFile + " " + genome + ' -m ' + motifFile + ' -nmotifs > '+ motifCount)
     os.system('annotatePeaks.pl ' + peakFile + " " + genome + ' -m ' + motifFile + ' -nmotifs > '+ motifCount)
     
     # Read in HOMER output
@@ -52,8 +52,8 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
         return 1
     
     ## Read in motifFile containing path to .motif files
-    motifs = pd.read_table(motifFile, sep="\n", header=None)
-    motifs = motifs.to_numpy()
+#    motifs = pd.read_table(motifFile, sep="\n", header=None)
+#    motifs = motifs.to_numpy()
     
     ## Create a string combinining all the .motif paths
 #     motifString = ""
@@ -67,6 +67,7 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
     # Get Motif Counts
     motifCounts = None
     if motifCountFile == "":
+        print('No Input File, calling getMotifCount')
         getMotifCount(peakFile, genome, motifFile, outputDirectory)
         motifCounts = pd.read_table(str(outputDirectory + "motifCounts.csv"), sep="\t", header=0, index_col=0)
     else:
@@ -75,8 +76,9 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
     ## Call HOMER annotatePeaks to get motif positions
     print('annotatePeaks.pl ' + peakFile + ' ' + genome + ' -m ' + motifFile + ' > '+ homerOutput)
     os.system('annotatePeaks.pl ' + peakFile + ' ' + genome + ' -m ' + motifFile + ' > '+ homerOutput)
-    
+
     motifLocations = pd.read_table(homerOutput)
+    os.system('rm ' + homerOutput)
     
     # Set up Columns
     columnNames = motifLocations.columns[21:]
@@ -106,7 +108,7 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
         for j in range(motifCountsForPeak.shape[0]):
             peakMotifCount = motifCountsForPeak[j]
             if peakMotifCount == 0:
-                peakMotifCoord.append(0)
+                peakMotifCoord.append(0) # replaced with -10000 for visualization
             else:
                 motifCoords = positionTable.loc[motifCounts.index[j]][peakID].split(" ")
                 # Coordinate Format = Offset(Sequence,-/+,Score)
@@ -127,7 +129,7 @@ def getMotifLocation(peakFile, genome, motifFile, outputDirectory="", motifCount
     
     print("Motif Coordinates of the peak file have been placed in " + output)
 
-def getMotifCoordinateDifference(motifCoordinatesFile,outputDirectory=""):
+def getMotifCoordDiff(motifCoordinatesFile,outputDirectory=""):
     
     if not os.path.exists(motifCoordinatesFile):
         print('Path to motifCoordinatesFile is incorrect or does not exist\n')
@@ -146,7 +148,7 @@ def getMotifCoordinateDifference(motifCoordinatesFile,outputDirectory=""):
     
     for i in range(numOfpeaks):
         distanceMatrix = np.zeros(shape=(numOfMotifs,numOfMotifs))
-        motifCoords = COORDS.iloc[:,i]
+        motifCoords = allCoords.iloc[:,i]
         for j in range(numOfMotifs):
              for k in range(numOfMotifs):
                 if motifCoords[j] == 0 or motifCoords[k] == 0:
