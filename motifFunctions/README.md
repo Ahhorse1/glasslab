@@ -1,7 +1,9 @@
 # Motif Methods
-- [getMotifCount](#-getMotifCount)
-- [getMotifLocation](#-getMotifLocation)
-- [getMotifCoordDiff](#-getMotifCoordDiff)
+- [getMotifCount](#getMotifCount)
+- [getMotifLocation](#getMotifLocation)
+- [getMotifCoordDiff](#getMotifCoordDiff)
+
+>:warning: These methods rely on having [HOMER](http://homer.ucsd.edu/homer/) and the Genomes installed. You can learn more about [HOMER here](http://homer.ucsd.edu/homer/).
 
 # getMotifCount
 getMotifCount( peakFile, genome, motifFile, outputDirectory (Optional) )
