@@ -22,7 +22,7 @@ Include the / in your input, for example if the directory is glasslab/data, inpu
 ## Output:
 The program will output the counts to a csv file named motifCounts.csv in the following format. 
 The csv file is separated by tabs and has a header and index. 
-You can read it in pandas like this pd.read_table('motifCounts.csv', sep='\t', header=0, index_col=0)
+You can read it in pandas like this `pd.read_table('motifCounts.csv', sep='\t', header=0, index_col=0)`
 
 | File            | peak1 | peak2  |  ...  | peakX  |
 | --------------- | ----- | ------ | ----- | ------ |
@@ -61,7 +61,7 @@ Include the / in your input, for example if the directory is glasslab/data, inpu
 ## Output:
 The program will output the coordinates to a csv file named motifCoordinates.csv in the following format. 
 The csv file is separated by tabs and has a header and index. 
-You can read it in pandas like this pd.read_table('motifCoordinates.csv', sep='\t', header=0, index_col=0)
+You can read it in pandas like this `pd.read_table('motifCoordinates.csv', sep='\t', header=0, index_col=0)`
 
 | File            | peak1 | peak2  |  ...  | peakX  |
 | --------------- | ----- | ------ | ----- | ------ |
@@ -88,7 +88,7 @@ Will produce motifCoordinates.csv and motifCounts.csv in the directory /user/tes
 # getMotifCoordDiff
 getMotifCoordDiff( motifCoordinatesFile, outputDirectory (optional) )
 
-The function provides a N by M matrix containing the differences between the location of motifs on each peak given a motif coordinates file provided by the getMotifLocation function. N is the number of peaks and M is the number of motifs of interest.
+The function provides a N*(N-1)/2 by M matrix containing the differences between the location of motifs on each peak given a motif coordinates file provided by the getMotifLocation function. N is the number of motifs and M is the number of peaks.
 ## Parameters:
 **motifCoordinatesFile** - Filepath to the csv file containing the motif coordinates. This is provided by getMotifLocation function
 
@@ -97,16 +97,16 @@ The function provides a N by M matrix containing the differences between the loc
 ## Output
 The program will output the coordinates to a csv file named coordinateDifference.csv in the following format. 
 The csv file is separated by tabs and has a header and index. 
-You can read it in pandas like this pd.read_table('motifCoordinates.csv', sep='\t', header=0, index_col=0)
+You can read it in pandas like this `pd.read_table('motifCoordinates.csv', sep='\t', header=0, index_col=0)`
 
-| File            | peak1 | peak2  |  ...  | peakN  |
+| File            | peak1 | peak2  |  ...  | peakM  |
 | --------------- | ----- | ------ | ----- | ------ |
 | (Motif1_Coordinate)-(Motif2_Coordinate) |   a1  |   b1   |  ...  |   x1   |
 | (Motif1_Coordinate)-(Motif3_Coordinate) |   a2  |   b2   |  ...  |   x2   |
 |  ...            |  ...  |   ...  |  ...  |  ...   |
-| (MotifM-2_Coordinate)-(MotifM-1_Coordinate) |   aY  |   bY   |  ...  |   xy   |
+| (MotifN-2_Coordinate)-(MotifN-1_Coordinate) |   aY  |   bY   |  ...  |   xy   |
 
-N is the number of peaks and M is the number of motifs
+N is the number of motifs and M is the number of peaks
 ## Example Usage:
 
 Will produce coordinateDifference.csv in the same directory the program is run
