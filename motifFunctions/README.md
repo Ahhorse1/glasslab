@@ -106,7 +106,7 @@ You can read it in pandas like this `pd.read_table('motifCoordinates.csv', sep='
 |  ...            |  ...  |   ...  |  ...  |  ...   |
 | (MotifN-2_Coordinate)-(MotifN-1_Coordinate) |   aY  |   bY   |  ...  |   xy   |
 
-N is the number of motifs and M is the number of peaks
+The matrix dimensions are N*(N-1)/2 by M, where N is the number of motifs and M is the number of peaks.
 ## Example Usage:
 
 Will produce coordinateDifference.csv in the same directory the program is run
